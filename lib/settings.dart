@@ -50,19 +50,38 @@ class Settings extends StatelessWidget{
                 },
               ),
 
-              const ListTile(
-                leading: Icon(Icons.info_outline_rounded),
-                title: Text("A B O U T"),
+               ListTile(
+                leading: const Icon(Icons.info_outline_rounded),
+                title: const Text("A B O U T"),
+                onTap: () {
+                  Navigator.pushNamed(context, 'about');
+                },
               ),
             ],
           ),
         ),
 
-        body: const Center(
-          child: SizedBox(height: 200, width: 200, child: Text("Settings"),),
+        body: Column(
+                  children: [
+                  Container(
+                    height: 200,
+                    width: 200,
+                    padding: EdgeInsets.symmetric(),
+                    child: Text("Theme",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black.withOpacity(1.0)),
+
+                    ),
+                  ),
+                    Container(
+                      height: 200,
+                      width: 200,
+                      child: Text("Theme"),
+                    )
+                ]
         ),
-      )
+      ),
     );
   }
-
 }

@@ -1,3 +1,4 @@
+import 'package:batterymanagementsystem/about_page.dart';
 import 'package:batterymanagementsystem/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -61,9 +62,12 @@ class MyApp extends StatelessWidget {
                       },
                     ),
 
-                    const ListTile(
-                      leading: Icon(Icons.info_outline_rounded),
-                      title: Text("A B O U T"),
+                    ListTile(
+                      leading: const Icon(Icons.info_outline_rounded),
+                      title: const Text("A B O U T"),
+                      onTap: () {
+                        Navigator.pushNamed(context, 'about');
+                      },
                     ),
                   ],
                 ),
@@ -147,6 +151,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'settings': (context) => const Settings(),
         'home': (context) => const MyApp(),
+        'about' : (context) => const about_page(),
       },
     );
   }
