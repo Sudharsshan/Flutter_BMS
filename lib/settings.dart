@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 /*
@@ -8,16 +10,26 @@ import 'package:flutter/material.dart';
 class Settings extends StatelessWidget{
    const Settings ({super.key});
 
+   //Update the color of the boxes here in realtime based on values.
+
+   dynamicColor(){
+     Color color = Color.fromARGB(Random().nextInt(256), Random().nextInt(256),
+         Random().nextInt(256), Random().nextInt(256));
+
+   }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(
           centerTitle:true,
           title: const Text("Settings"),
-          backgroundColor: const Color.fromARGB(255, 203, 147, 201),
+          backgroundColor: const Color.fromARGB(255, 201, 151, 207),
           elevation: 30,
           foregroundColor: const Color.fromARGB(255, 116, 71, 138),
           shadowColor: Colors.black,
@@ -66,18 +78,24 @@ class Settings extends StatelessWidget{
                   Container(
                     height: 200,
                     width: 200,
-                    padding: EdgeInsets.symmetric(),
-                    child: Text("Theme",
-                    style: TextStyle(
+                    padding: const EdgeInsets.symmetric(),
+                    child: Text("Themes: ",
+                    style:  TextStyle(
+                        fontSize: 5,
                         fontWeight: FontWeight.bold,
                         color: Colors.black.withOpacity(1.0)),
-
                     ),
                   ),
                     Container(
                       height: 200,
                       width: 200,
-                      child: Text("Theme"),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text("Color mode"),
+
+                        ],
+                      ),
                     )
                 ]
         ),
