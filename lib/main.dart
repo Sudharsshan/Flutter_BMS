@@ -134,7 +134,7 @@ class MyApp extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(30))
 
                     ),
-                    child: const Text("and many more"),
+                    child: const Text("Status "),
                   ),
 
                   Container(
