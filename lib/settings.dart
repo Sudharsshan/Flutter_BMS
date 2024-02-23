@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -59,6 +61,7 @@ class Settings extends StatelessWidget{
                 title: const Text("S E T T I N G S"),
                 onTap: () {
                   Navigator.pushNamed(context, 'settings');
+
                 },
               ),
 
