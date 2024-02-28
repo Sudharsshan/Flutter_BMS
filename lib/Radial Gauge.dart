@@ -4,6 +4,12 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 void main() => runApp(ChartApp());
 
 class ChartApp extends StatelessWidget {
+
+  //Add a state for this widget and change the values of these variables accordingly to set the color for the gauge dynamically
+  late Color myColorRedLight = const Color.fromARGB(255, 255, 97, 97);
+  late Color myColorRedMedium = const Color.fromARGB(255, 255, 58, 58);
+  late Color myColorRedHeavy = const Color.fromARGB(255, 255, 0, 0);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -82,15 +88,16 @@ class ChartApp extends StatelessWidget {
                             thicknessUnit: GaugeSizeUnit.factor,
                           ),
                           pointers: <GaugePointer>[
+                            //This method draws the radial gauge with the specified value
                             RangePointer(
                               value: 55,
                               width: 0.1,
                               sizeUnit: GaugeSizeUnit.factor,
-                              gradient: const SweepGradient(
+                              gradient: SweepGradient(
                                 colors: <Color>[
-                                  Colors.red,
-                                  Colors.yellow,
-                                  Colors.green,
+                                  myColorRedLight,
+                                  myColorRedMedium,
+                                  myColorRedHeavy,
                                 ],
                                 stops: <double>[0.0, 0.6, 1.0],
                               ),

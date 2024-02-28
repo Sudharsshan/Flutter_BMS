@@ -8,25 +8,38 @@ import 'package:flutter/material.dart';
   This page contains the settings of the app as follows:
   - Theme of the app
   - Push notifications (implement in future)
- */
-class Settings extends StatelessWidget{
-   const Settings ({super.key});
+ */// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
 
-   //Update the color of the boxes here in realtime based on values.
+import 'package:flutter/material.dart';
 
-   dynamicColor(){
-     Color color = Color.fromARGB(Random().nextInt(256), Random().nextInt(256),
-         Random().nextInt(256), Random().nextInt(256));
+void main() {
+  runApp(Settings());
+}
 
-   }
+class Settings extends StatefulWidget {
+  const Settings({Key? key});
+
+  @override
+  State<Settings> createState() => _RunMyAppState();
+}
+
+class _RunMyAppState extends State<Settings> {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  void changeTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
+      theme: ThemeData(primarySwatch: Colors.green),
       darkTheme: ThemeData.dark(),
+      themeMode: _themeMode,
+      debugShowCheckedModeBanner: false,
+
       home: Scaffold(
         appBar: AppBar(
           centerTitle:true,
@@ -56,7 +69,7 @@ class Settings extends StatelessWidget{
                 },
               ),
 
-               ListTile(
+              ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text("S E T T I N G S"),
                 onTap: () {
@@ -65,7 +78,7 @@ class Settings extends StatelessWidget{
                 },
               ),
 
-               ListTile(
+              ListTile(
                 leading: const Icon(Icons.info_outline_rounded),
                 title: const Text("A B O U T"),
                 onTap: () {
@@ -76,31 +89,35 @@ class Settings extends StatelessWidget{
           ),
         ),
 
-        body: Column(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    padding: const EdgeInsets.symmetric(),
-                    child: Text("Themes: ",
-                    style:  TextStyle(
-                        fontSize: 5,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black.withOpacity(1.0)),
+                    Text(
+                      'Change Theme:',
+                      style: TextStyle(fontSize: 18),
                     ),
-                  ),
-                    Container(
-                      height: 200,
-                      width: 200,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text("Color mode"),
+                    Spacer(),
+                    Switch(
+                      value: _themeMode == ThemeMode.dark,
+                      onChanged: (value) {
+                        if (value) {
+                          changeTheme(ThemeMode.dark);
+                        } else {
+                          changeTheme(ThemeMode.light);
+                        }
+                      },
+                    ),
+                  ],
+                ),
 
-                        ],
-                      ),
-                    )
-                ]
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "333129683549",
+    "project_id": "batterymanagementapp",
+    "storage_bucket": "batterymanagementapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333129683549:android:1f8641edbfbd01589a73b4",
+        "android_client_info": {
+          "package_name": "com.christuniversity.evdrive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALtj9qnHRNX02oCrQsd7YgD3t7sunpglA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
