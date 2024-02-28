@@ -5,6 +5,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//This var stores data from the api response received
 String responseData = 'Loading...';
 
 //This is a background task executor which will execute a background task as long as you want
@@ -48,7 +49,7 @@ void main() {
   Workmanager().registerPeriodicTask(
     "fetchData",
     "fetchDataTask",
-    frequency: Duration(hours: 1), // Fetch data every 30 minutes
+    frequency: const Duration(minutes: 10), // Fetch data every 10 minutes
   );
 }
 
@@ -60,8 +61,9 @@ class MyApp extends StatelessWidget {
   //Rebuild the color of the app.
   //For the time being, only the structure of the app will be made which can be edited later after discussion with the team.
 
+  //This is the API link to fetch the data from web
+  //You may add API Key if required
   final fetchLink = Uri.parse('https://io.adafruit.com/api/v2/SudharsshanSY/feeds/altitude');
-
   Future<void> fetchData() async {
     try {
       const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
