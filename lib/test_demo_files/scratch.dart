@@ -4,42 +4,41 @@ import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
 
 //This is a background task executor which will execute a background task as long as you want
 void callbackDispatcher() {
-    // Fetch data from API
-    Workmanager().executeTask((taskName, link) async {
-      //logic is here
-      try {
-        final fetchLink = Uri.parse(link as String);
-        const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
+  // Fetch data from API
+  Workmanager().executeTask((taskName, link) async {
+    //logic is here
+    try {
+      final fetchLink = Uri.parse(link as String);
+      const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
 
-        final response = await http.get(
-          fetchLink,
-          headers: {
-            'X-AIO-Key': apiKey, // Include API key in the request headers
-          },
-        );
+      final response = await http.get(
+        fetchLink,
+        headers: {
+          'X-AIO-Key': apiKey, // Include API key in the request headers
+        },
+      );
 
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
 
-          //modify this part of the code to obtain the required data
-          final lastValueFromResponse = data['last_value'];
-          responseData = lastValueFromResponse.toString();
-        } else {
-          responseData = 'Failed to fetch data: ${response.statusCode}';
-        }
-
-      } catch (error) {
-        responseData = 'Error: $error';
+        //modify this part of the code to obtain the required data
+        final lastValueFromResponse = data['last_value'];
+        responseData = lastValueFromResponse.toString();
+      } else {
+        responseData = 'Failed to fetch data: ${response.statusCode}';
       }
-      return Future.value(true);
-    });
+
+    } catch (error) {
+      responseData = 'Error: $error';
+    }
+    return Future.value(true);
+  });
 }
 
 void main() {
@@ -54,32 +53,13 @@ void main() {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   MyApp({super.key});
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+  // This widget is the root of your application.
 
-class _MyAppState extends State<MyApp>{
+  static const int a = 10;
   //Rebuild the color of the app.
   //For the time being, only the structure of the app will be made which can be edited later after discussion with the team.
-
-  bool isDarkMode = false; //Initially the app is in light mode
-
-  //Initialises the shared_preferences for use into the app
-  @override
-  void initState(){
-    super.initState();
-    _loadTheme();
-  }
-
-  //This method will fetch the Theme value from the shared_preferences
-  void _loadTheme() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      isDarkMode = pref.getBool('isDarkMode') ?? false;
-    });
-  }
 
   //This is the API link to fetch the data from web
   //You may add API Key if required
@@ -119,9 +99,9 @@ class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, //To avoid the DEBUG banner
-      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      //App theme is set UNIVERSAL via this method
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: Builder(
         builder: (BuildContext context) =>
             Scaffold(
@@ -254,6 +234,84 @@ class _MyAppState extends State<MyApp>{
         'home': (context) => MyApp(),
         'about' : (context) => const about_page(),
       },
+    );
+  }
+}
+
+class ProgressBarWidget extends StatefulWidget{
+  @override
+  _ProgressBarWidget createState() => _ProgressBarWidget();
+}
+
+class _ProgressBarWidget extends State<ProgressBarWidget> with SingleTickerProviderStateMixin{
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3), // Duration for one cycle of animation (from empty to full)
+    );
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _controller.reset(); // Reset the animation when it's completed to create a loop
+          _controller.forward();
+        }
+      });
+    _controller.forward(); // Start the animation
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Dispose the animation controller
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: double.infinity, // Full width
+          height: 80, // Increased height for a thicker progress bar
+          decoration: BoxDecoration(
+            color: Colors.grey[300], // Background color of the progress bar container
+            borderRadius: BorderRadius.circular(20), // Rounded corners
+          ),
+          child: FractionallySizedBox(
+            alignment: Alignment.centerLeft,
+            widthFactor: _animation.value, // Use the animated value for the width factor
+            child: Container(
+              height: 80, // Increased height for a thicker progress bar
+              decoration: BoxDecoration(
+                color: Colors.blue, // Color of the progress bar
+                borderRadius: BorderRadius.circular(20), // Rounded corners
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Center(
+            child: Text(
+              'Downloading...', // Example text
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

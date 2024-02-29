@@ -46,6 +46,7 @@ dependencies:
   firebase_messaging: ^14.7.17
   fluttertoast: ^8.2.4
   workmanager: ^0.5.2
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

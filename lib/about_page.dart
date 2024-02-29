@@ -1,18 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class about_page extends StatelessWidget {
+class about_page extends StatefulWidget {
   const about_page({super.key});
 
+  @override
+  State<about_page> createState() => _about_page();
+}
+
+class _about_page extends State<about_page>{
   /*
     This page contains the basic info of the app and the project.
    */
+  bool isDarkMode = false; //Initially it is in dark mode
+
+  @override
+  void initState(){
+    super.initState();
+    _loadTheme();
+  }
+
+  void _loadTheme() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      isDarkMode = pref.getBool('isDarkMode') ?? false;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
         appBar: AppBar(
           centerTitle:true,

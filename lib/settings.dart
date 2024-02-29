@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(Settings());
@@ -12,22 +13,33 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  ThemeMode _themeMode = ThemeMode.system;
   IconData _themeIcon = Icons.light_mode;
 
-  void changeTheme(ThemeMode themeMode) {
+  bool isDarkMode = false; //Initially the app is in light mode
+
+  @override
+  void initState(){
+    super.initState();
+    _loadTheme();
+  }
+
+  void _loadTheme() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      _themeMode = themeMode;
-      _themeIcon = themeMode == ThemeMode.dark ? Icons.nightlight_round : Icons.wb_sunny;
+      isDarkMode = pref.getBool('isDarkMode') ?? false;
+      _themeIcon = isDarkMode ? Icons.nightlight_round : Icons.wb_sunny;
     });
+  }
+
+  void _saveTheme(bool value) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool('isDarkMode', value);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primarySwatch: Colors.green),
-      darkTheme: ThemeData.dark(),
-      themeMode: _themeMode,
+      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -86,19 +98,20 @@ class _SettingsState extends State<Settings> {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Change Theme:',
                       style: TextStyle(fontSize: 18),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Switch(
-                      value: _themeMode == ThemeMode.dark,
-                      onChanged: (value) {
-                        if (value) {
-                          changeTheme(ThemeMode.dark);
-                        } else {
-                          changeTheme(ThemeMode.light);
-                        }
+                      value: isDarkMode,
+                      onChanged: (newvalue) {
+                        setState(() {
+                          isDarkMode = newvalue;
+                          _themeIcon = newvalue ? Icons.nightlight_round : Icons.wb_sunny;
+                        });
+                        _saveTheme(newvalue);//Save the newly selected theme
+                        print('Theme has been changed: $newvalue');
                       },
                     ),
                     Icon(_themeIcon),
