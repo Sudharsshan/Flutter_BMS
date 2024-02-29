@@ -1,15 +1,3 @@
-// ignore_for_file: unnecessary_const
-
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-
-/*
-  This page contains the settings of the app as follows:
-  - Theme of the app
-  - Push notifications (implement in future)
- */// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,15 +8,17 @@ class Settings extends StatefulWidget {
   const Settings({Key? key});
 
   @override
-  State<Settings> createState() => _RunMyAppState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _RunMyAppState extends State<Settings> {
+class _SettingsState extends State<Settings> {
   ThemeMode _themeMode = ThemeMode.system;
+  IconData _themeIcon = Icons.light_mode;
 
   void changeTheme(ThemeMode themeMode) {
     setState(() {
       _themeMode = themeMode;
+      _themeIcon = themeMode == ThemeMode.dark ? Icons.nightlight_round : Icons.wb_sunny;
     });
   }
 
@@ -39,28 +29,31 @@ class _RunMyAppState extends State<Settings> {
       darkTheme: ThemeData.dark(),
       themeMode: _themeMode,
       debugShowCheckedModeBanner: false,
-
       home: Scaffold(
         appBar: AppBar(
-          centerTitle:true,
+          centerTitle: true,
           title: const Text("Settings"),
           backgroundColor: const Color.fromARGB(255, 201, 151, 207),
           elevation: 30,
           foregroundColor: const Color.fromARGB(255, 116, 71, 138),
           shadowColor: Colors.black,
         ),
-
         drawer: Drawer(
           backgroundColor: Colors.deepPurple[200],
           child: Column(
             children: [
-              const DrawerHeader(child: Column(
-                children: [
-                  Icon(Icons.settings, size: 80,color: Colors.black45,),
-                  Text("BMS"),
-                ],
-              )),
-
+              const DrawerHeader(
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      size: 80,
+                      color: Colors.black45,
+                    ),
+                    Text("BMS"),
+                  ],
+                ),
+              ),
               ListTile(
                 leading: const Icon(Icons.home),
                 title: const Text("H O M E"),
@@ -68,16 +61,13 @@ class _RunMyAppState extends State<Settings> {
                   Navigator.pushNamed(context, 'home');
                 },
               ),
-
               ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text("S E T T I N G S"),
                 onTap: () {
                   Navigator.pushNamed(context, 'settings');
-
                 },
               ),
-
               ListTile(
                 leading: const Icon(Icons.info_outline_rounded),
                 title: const Text("A B O U T"),
@@ -88,7 +78,6 @@ class _RunMyAppState extends State<Settings> {
             ],
           ),
         ),
-
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -112,9 +101,9 @@ class _RunMyAppState extends State<Settings> {
                         }
                       },
                     ),
+                    Icon(_themeIcon),
                   ],
                 ),
-
               ],
             ),
           ),
