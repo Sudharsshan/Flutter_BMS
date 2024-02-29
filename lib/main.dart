@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter/material.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
