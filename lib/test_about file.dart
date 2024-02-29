@@ -1,12 +1,15 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
-
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +22,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class AboutPage extends StatelessWidget {
+class AboutPage extends StatefulWidget {
+  @override
+  _AboutPageState createState() => _AboutPageState();
+}
+
+class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,17 +85,24 @@ class AboutPage extends StatelessWidget {
   }
 }
 
-class FAQItem extends StatelessWidget {
+class FAQItem extends StatefulWidget {
   final String question;
   final String answer;
 
   FAQItem({required this.question, required this.answer});
 
   @override
+  _FAQItemState createState() => _FAQItemState();
+}
+
+class _FAQItemState extends State<FAQItem> {
+  bool _expanded = false;
+
+  @override
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: Text(
-        question,
+        widget.question,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.deepPurple[900], // Updated text color
@@ -97,7 +112,7 @@ class FAQItem extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(16.0),
           child: Text(
-            answer,
+            widget.answer,
             style: TextStyle(
               fontSize: 16.0, // Increased font size for better readability
               color: Colors.deepPurple[800], // Updated text color
@@ -105,6 +120,12 @@ class FAQItem extends StatelessWidget {
           ),
         ),
       ],
+      onExpansionChanged: (expanded) {
+        setState(() {
+          _expanded = expanded;
+        });
+      },
+      initiallyExpanded: _expanded,
     );
   }
 }
