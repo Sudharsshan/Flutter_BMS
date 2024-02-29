@@ -3,6 +3,7 @@ import 'package:batterymanagementsystem/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +12,7 @@ String responseData = 'Loading...';
 
 //This is a background task executor which will execute a background task as long as you want
 void callbackDispatcher() {
+  print('Initialized callBackDispatcher');
     // Fetch data from API
     Workmanager().executeTask((taskName, link) async {
       //logic is here
@@ -31,6 +33,7 @@ void callbackDispatcher() {
           //modify this part of the code to obtain the required data
           final lastValueFromResponse = data['last_value'];
           responseData = lastValueFromResponse.toString();
+          print("Value is: $lastValueFromResponse");
         } else {
           responseData = 'Failed to fetch data: ${response.statusCode}';
         }
@@ -42,16 +45,18 @@ void callbackDispatcher() {
     });
 }
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(callbackDispatcher);
 
   // Register periodic task
-  Workmanager().initialize(callbackDispatcher);
   Workmanager().registerPeriodicTask(
     "fetchData",
     "fetchDataTask",
-    frequency: const Duration(minutes: 10), // Fetch data every 10 minutes
+    frequency: const Duration(seconds: 10), // Fetch data every 10 minutes
   );
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
