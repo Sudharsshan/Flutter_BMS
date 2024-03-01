@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
@@ -154,6 +155,9 @@ class _MyAppState extends State<MyApp>{
                         leading: const Icon(Icons.home),
                         title: const Text("H O M E"),
                         onTap: () {
+                          //Here this isn't required as this is the HOME screen
+                          HapticFeedback.lightImpact();
+                          Navigator.pop(context);
                           Navigator.pushNamed(context, 'home');
                         },
                       ),
@@ -162,6 +166,8 @@ class _MyAppState extends State<MyApp>{
                         leading: const Icon(Icons.settings),
                         title: const Text("S E T T I N G S"),
                         onTap: () {
+                          HapticFeedback.lightImpact();
+                          Navigator.pop(context);
                           Navigator.pushNamed(context, 'settings');
                         },
                       ),
@@ -170,6 +176,8 @@ class _MyAppState extends State<MyApp>{
                         leading: const Icon(Icons.info_outline_rounded),
                         title: const Text("A B O U T"),
                         onTap: () {
+                          HapticFeedback.lightImpact();
+                          Navigator.pop(context);
                           Navigator.pushNamed(context, 'about');
                         },
                       ),

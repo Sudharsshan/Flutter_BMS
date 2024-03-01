@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(Settings());
@@ -70,6 +71,8 @@ class _SettingsState extends State<Settings> {
                 leading: const Icon(Icons.home),
                 title: const Text("H O M E"),
                 onTap: () {
+                  HapticFeedback.lightImpact();
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, 'home');
                 },
               ),
@@ -77,6 +80,9 @@ class _SettingsState extends State<Settings> {
                 leading: const Icon(Icons.settings),
                 title: const Text("S E T T I N G S"),
                 onTap: () {
+                  //This isn't required as this is SETTINGS screen
+                  HapticFeedback.lightImpact();
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, 'settings');
                 },
               ),
@@ -84,6 +90,8 @@ class _SettingsState extends State<Settings> {
                 leading: const Icon(Icons.info_outline_rounded),
                 title: const Text("A B O U T"),
                 onTap: () {
+                  HapticFeedback.lightImpact();
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, 'about');
                 },
               ),
