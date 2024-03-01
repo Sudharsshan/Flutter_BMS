@@ -116,7 +116,7 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple[900], // Update text color
+                color: Colors.redAccent, // Update text color
               ),
             ),
             SizedBox(height: 16.0),
@@ -124,7 +124,7 @@ class _AboutPageState extends State<AboutPage> {
               'Your app description goes here. This is where you describe the purpose or main features of your app.',
               style: TextStyle(
                 fontSize: 18.0, // Increased font size for better readability
-                color: Colors.deepPurple[800], // Update text color
+                color: Colors.green[800], // Update text color
               ),
             ),
             SizedBox(height: 32.0),
@@ -133,21 +133,28 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple[900], // Update text color
+                color: Colors.redAccent[900], // Update text color
               ),
             ),
             SizedBox(height: 16.0),
             FAQItem(
-              question: 'Question 1?',
-              answer: 'Answer to question 1.',
+              question: 'Q: What is a self-driving electric vehicle (EV)?',
+              answer: 'A self-driving electric vehicle'
+                  ', commonly known as an EV, is an automobile that runs on electricity as its primary source'
+                  ' of power and is equipped with autonomous driving capabilities. '
+                  'These vehicles can navigate and operate on roads without human intervention, '
+                  'relying on various sensors, cameras, and advanced software algorithms to detect and respond to their surroundings.',
             ),
             FAQItem(
-              question: 'Question 2?',
-              answer: 'Answer to question 2.',
+              question: 'Q: What are the features of the app?',
+              answer: 'Notifications and Alerts: Receive alerts about vehicle status, driving conditions, software updates, and maintenance reminders.'
+                  'Vehicle Monitoring: Monitor the battery charge level, estimated range, and other important vehicle parameters in real-time. ',
             ),
             FAQItem(
-              question: 'Question 3?',
-              answer: 'Answer to question 3.',
+              question: 'Q: Can I access battery health information remotely through the app?',
+              answer: 'Yes, the app enables remote access to battery health information. Users can view real-time battery health data,'
+                  ' receive notifications, and access historical information from anywhere,'
+                  ' providing convenience and peace of mind.',
             ),
           ],
         ),
@@ -176,7 +183,7 @@ class _FAQItemState extends State<FAQItem> {
         widget.question,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.deepPurple[900], // Updated text color
+          color: Colors.green[900], // Updated text color
         ),
       ),
       children: <Widget>[
@@ -186,7 +193,7 @@ class _FAQItemState extends State<FAQItem> {
             widget.answer,
             style: TextStyle(
               fontSize: 16.0, // Increased font size for better readability
-              color: Colors.deepPurple[800], // Updated text color
+              color: Colors.lightGreenAccent[800], // Updated text color
             ),
           ),
         ),
