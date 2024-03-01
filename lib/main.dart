@@ -1,5 +1,8 @@
+//Importing screens for navigation through the app
 import 'package:batterymanagementsystem/about_page.dart';
 import 'package:batterymanagementsystem/settings.dart';
+
+//Importing packages
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 import 'package:http/http.dart' as http;
@@ -12,52 +15,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 //This var stores data from the api response received
 String responseData = 'Loading...';
 
-//This is a background task executor which will execute a background task as long as you want
-void callbackDispatcher() {
-  print('Initialized callBackDispatcher');
-    // Fetch data from API
-    Workmanager().executeTask((taskName, link) async {
-      //logic is here
-      try {
-        final fetchLink = Uri.parse(link as String);
-        const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
-
-        final response = await http.get(
-          fetchLink,
-          headers: {
-            'X-AIO-Key': apiKey, // Include API key in the request headers
-          },
-        );
-
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-
-          //modify this part of the code to obtain the required data
-          final lastValueFromResponse = data['last_value'];
-          responseData = lastValueFromResponse.toString();
-          print("Value is: $lastValueFromResponse");
-        } else {
-          responseData = 'Failed to fetch data: ${response.statusCode}';
-        }
-
-      } catch (error) {
-        responseData = 'Error: $error';
-      }
-      return Future.value(true);
-    });
-}
-
-Future<void> main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  Workmanager().initialize(callbackDispatcher);
-
-  // Register periodic task
-  Workmanager().registerPeriodicTask(
-    "fetchData",
-    "fetchDataTask",
-    frequency: const Duration(seconds: 10), // Fetch data every 10 minutes
-  );
-
+void main(){
   runApp(MyApp());
 }
 
@@ -92,41 +50,6 @@ class _MyAppState extends State<MyApp>{
     setState(() {
       isDarkMode = pref.getBool('isDarkMode') ?? false;
     });
-  }
-
-  //This is the API link to fetch the data from web
-  //You may add API Key if required
-  final fetchLink = Uri.parse('https://io.adafruit.com/api/v2/SudharsshanSY/feeds/altitude');
-  Future<void> fetchData() async {
-    try {
-      const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
-
-      final response = await http.get(
-        fetchLink,
-        headers: {
-          'X-AIO-Key': apiKey, // Include API key in the request headers
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final lastValueFromResponse = data['last_value'];
-        responseData = lastValueFromResponse.toString();
-      } else {
-        responseData = 'Failed to fetch data: ${response.statusCode}';
-      }
-    } catch (error) {
-      responseData = 'Error: $error';
-    }
-  }
-
-//This method will create a scheduled task to be executed in the background at particular intervals as specified
-  void scheduleTask(){
-    Workmanager().registerPeriodicTask(
-        'myTask',
-        '$fetchLink',
-        frequency: const Duration(minutes: 2),
-        inputData: <String, dynamic>{'key': 'value'});
   }
 
   @override

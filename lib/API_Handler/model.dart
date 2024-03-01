@@ -2,15 +2,51 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:workmanager/workmanager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class model extends StatelessWidget {
+class AltitudeWidget extends StatefulWidget {
+  const AltitudeWidget({super.key});
+
+  @override
+  _AltitudeWidgetState createState() => _AltitudeWidgetState();
+}
+
+class _AltitudeWidgetState extends State<AltitudeWidget> {
   String altitudeData = 'Loading...';
-  
+  late Timer _timer;
+  bool _isRefreshing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch data initially
+    fetchData();
+
+    //Demo toast message
+    Fluttertoast.showToast(msg: 'Data is refreshed every 3 seconds',
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black.withOpacity(0.8),
+        textColor: Colors.white);
+
+
+    // Schedule fetching data every 10 seconds
+    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      fetchData();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer when the widget is disposed
+    _timer.cancel();
+    super.dispose();
+  }
+
   Future<void> fetchData() async {
     try {
       final fetchLink = Uri.parse('https://io.adafruit.com/api/v2/SudharsshanSY/feeds/altitude');
-      const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
+      final apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
 
       final response = await http.get(
         fetchLink,
@@ -22,68 +58,58 @@ class model extends StatelessWidget {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final lastValueFromResponse = data['last_value'];
+
+        setState(() {
           altitudeData = lastValueFromResponse.toString();
+        });
       } else {
+        setState(() {
           altitudeData = 'Failed to fetch data: ${response.statusCode}';
+        });
       }
+
     } catch (error) {
+      setState(() {
         altitudeData = 'Error: $error';
+      });
     }
   }
-  
-String responseData = 'Loading...';
 
-//This is a background task executor which will execute a background task as long as you want
-void callBackDispatcher(){
-  Workmanager().executeTask((taskName, link) async {
-    //logic is here
-    try {
-      final fetchLink = Uri.parse(link as String);
-      const apiKey = 'aio_fOIT54TDT5jDFxcL9HuByjJusqha'; // Replace with your API key
+  Future<void> refreshData() async {
+    setState(() {
+      _isRefreshing = true;
+    });
 
-      final response = await http.get(
-        fetchLink,
-        headers: {
-          'X-AIO-Key': apiKey, // Include API key in the request headers
-        },
-      );
+    await fetchData();
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final lastValueFromResponse = data['last_value'];
-          responseData = lastValueFromResponse.toString();
-      } else {
-          responseData = 'Failed to fetch data: ${response.statusCode}';
-      }
-
-    } catch (error) {
-        responseData = 'Error: $error';
-    }
-    return Future.value(true);
-  });
-}
-
-//This method will create a scheduled task to be executed in the background at particular intervals as specified
-void scheduleTask(){
-  Workmanager().registerPeriodicTask(
-      'myTask',
-      'simpleTask',
-      frequency: const Duration(minutes: 2),
-      inputData: <String, dynamic>{'key': 'value'});
-}
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  Workmanager().initialize(callBackDispatcher);
-  
-  runApp(MaterialApp(
-    home: model(),
-  ));
-}
+    setState(() {
+      _isRefreshing = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Altitude Data'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: _isRefreshing ? null : refreshData,
+          ),
+        ],
+      ),
+      body: Center(
+        child: _isRefreshing
+            ? CircularProgressIndicator()
+            : Text(altitudeData),
+      ),
+    );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: AltitudeWidget(),
+  ));
 }
