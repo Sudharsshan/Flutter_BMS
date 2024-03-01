@@ -116,7 +116,7 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple[900], // Updated text color
+                color: Colors.deepPurple[900], // Update text color
               ),
             ),
             SizedBox(height: 16.0),
@@ -124,7 +124,7 @@ class _AboutPageState extends State<AboutPage> {
               'Your app description goes here. This is where you describe the purpose or main features of your app.',
               style: TextStyle(
                 fontSize: 18.0, // Increased font size for better readability
-                color: Colors.deepPurple[800], // Updated text color
+                color: Colors.deepPurple[800], // Update text color
               ),
             ),
             SizedBox(height: 32.0),
@@ -133,7 +133,7 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple[900], // Updated text color
+                color: Colors.deepPurple[900], // Update text color
               ),
             ),
             SizedBox(height: 16.0),

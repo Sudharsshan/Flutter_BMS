@@ -7,8 +7,8 @@ class ProgressBarWidget extends StatefulWidget {
 }
 
 class _ProgressBarWidgetState extends State<ProgressBarWidget> with SingleTickerProviderStateMixin {
-  late AnimationController _controller1, _controller2, _controller3;
-  late Animation<double> _animation1, _animation2, _animation3;
+  late AnimationController _controller1;
+  late Animation<double> _animation1;
 
   @override
   void initState() {
@@ -30,40 +30,6 @@ class _ProgressBarWidgetState extends State<ProgressBarWidget> with SingleTicker
         }
       });
     _controller1.forward(); // Start the animation
-
-    //Widget 2
-    _controller2 = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200), // Duration for one cycle of animation (from empty to full)
-    );
-    _animation2 = Tween<double>(begin: 0.0, end: 1.0).animate(_controller2)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _controller2.reset(); // Reset the animation when it's completed to create a loop
-          _controller2.forward();
-        }
-      });
-    _controller2.forward(); // Start the animation
-
-    //Widget 3
-    _controller3 = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1600), // Duration for one cycle of animation (from empty to full)
-    );
-    _animation3 = Tween<double>(begin: 0.0, end: 1.0).animate(_controller3)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _controller3.reset(); // Reset the animation when it's completed to create a loop
-          _controller3.forward();
-        }
-      });
-    _controller3.forward(); // Start the animation
   }
 
   @override

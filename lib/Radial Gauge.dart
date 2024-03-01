@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-void main() => runApp(ChartApp());
+void main() {
+  runApp(ChartApp());
+}
 
 class ChartApp extends StatelessWidget {
 
@@ -12,60 +14,7 @@ class ChartApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Kurama'),
-        ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              DrawerHeader(
-                child: Text('BMS'),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-              ),
-              ListTile(
-                title: Row(
-                  children: [
-                    Icon(Icons.home, color: Colors.green),
-                    SizedBox(width: 8),
-                    Text('Home'),
-                  ],
-                ),
-                onTap: () {
-                  // Handle home navigation
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: [
-                    Icon(Icons.settings, color: Colors.green),
-                    SizedBox(width: 8),
-                    Text('Settings'),
-                  ],
-                ),
-                onTap: () {
-                  // Handle settings navigation
-                },
-              ),
-              ListTile(
-                title: Row(
-                  children: [
-                    Icon(Icons.info, color: Colors.green),
-                    SizedBox(width: 8),
-                    Text('About'),
-                  ],
-                ),
-                onTap: () {
-                  // Handle about navigation
-                },
-              ),
-            ],
-          ),
-        ),
-        body: Container(
+    return Container(
           color: Color(0xFF2C3E50),
           child: Column(
             children: [
@@ -164,8 +113,6 @@ class ChartApp extends StatelessWidget {
               SizedBox(height: 16),
             ],
           ),
-        ),
-      ),
     );
   }
 }

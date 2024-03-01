@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
@@ -71,6 +72,12 @@ class _MyAppState extends State<MyApp>{
   //For the time being, only the structure of the app will be made which can be edited later after discussion with the team.
 
   bool isDarkMode = false; //Initially the app is in light mode
+
+  //Add a state for this widget and change the values of these variables accordingly to set the color for the gauge dynamically
+  late Color myColorRedLight = const Color.fromARGB(255, 255, 97, 97);
+  late Color myColorRedMedium = const Color.fromARGB(255, 255, 58, 58);
+  late Color myColorRedHeavy = const Color.fromARGB(255, 255, 0, 0);
+
 
   //Initialises the shared_preferences for use into the app
   @override
@@ -189,6 +196,85 @@ class _MyAppState extends State<MyApp>{
                   builder: (BuildContext context) => ListView(
                     scrollDirection: Axis.vertical,
                     children: [
+
+                      //Implemented the radial gauge
+                      SizedBox(
+                        height: 300,
+                        width: 200,
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 16),
+                            Expanded(
+                              child: Center(
+                                child: SizedBox(
+                                  width: 300,
+                                  height: 300,
+                                  child: SfRadialGauge(
+                                    axes: <RadialAxis>[
+                                      RadialAxis(
+                                        minimum: 0,
+                                        maximum: 100,
+                                        showLabels: false,
+                                        showTicks: false,
+                                        axisLineStyle: AxisLineStyle(
+                                          thickness: 0.1,
+                                          color: Colors.grey[700],
+                                          thicknessUnit: GaugeSizeUnit.factor,
+                                        ),
+                                        pointers: <GaugePointer>[
+                                          //This method draws the radial gauge with the specified value
+                                          RangePointer(
+                                            value: 55,
+                                            width: 0.1,
+                                            sizeUnit: GaugeSizeUnit.factor,
+                                            gradient: SweepGradient(
+                                              colors: <Color>[
+                                                myColorRedLight,
+                                                myColorRedMedium,
+                                                myColorRedHeavy,
+                                              ],
+                                              stops: const <double>[0.0, 0.6, 1.0],
+                                            ),
+                                            enableAnimation: true,
+                                          ),
+                                        ],
+                                        annotations: const <GaugeAnnotation>[
+                                          GaugeAnnotation(
+                                            widget: Text(
+                                              'State of Charge',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.pink,
+                                              ),
+                                            ),
+                                            positionFactor: 0.2,
+                                            angle: 90,
+                                          ),
+                                          GaugeAnnotation(
+                                            widget: Text(
+                                              '55%',
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.pink,
+                                              ),
+                                            ),
+                                            positionFactor: 0.5,
+                                            angle: 90,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                          ],
+                        ),
+                      ),
+
                       Container(
                         height: 80,
                         width: 500,
@@ -198,7 +284,7 @@ class _MyAppState extends State<MyApp>{
                             color: Colors.purple,
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
-                        child: const Text("Battery Percentage"),
+                        child: const Text("State of Health"),
                       ),
 
                       Container(
@@ -217,7 +303,7 @@ class _MyAppState extends State<MyApp>{
                               )
                             ]
                         ),
-                        child: const SelectableText("State of Charge",
+                        child: const SelectableText("Voltage",
                           style: TextStyle(
                               color: Color.fromARGB(255, 116, 71, 138)),),
                       ),
@@ -231,32 +317,8 @@ class _MyAppState extends State<MyApp>{
                             color: Colors.purple,
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
-                        child: const Text("Battery Health"),
+                        child: const Text("Current"),
                       ),
-
-                      Container(
-                        height: 80,
-                        width: 500,
-
-                        padding: const EdgeInsets.all(27),
-                        margin: const EdgeInsets.fromLTRB(30, 18, 30, 9),
-                        decoration: const BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.all(Radius.circular(30))
-
-                        ),
-                        child: const Text("Status "),
-                      ),
-
-                      Container(
-                        height: 100,
-                        width: 100,
-                        margin: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.amber[150],
-
-                        ),
-                      )
                     ],
                   ),
                 )
@@ -267,6 +329,47 @@ class _MyAppState extends State<MyApp>{
         'home': (context) => MyApp(),
         'about' : (context) => const about_page(),
       },
+    );
+  }
+}
+
+class BatteryInfoContainer extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color? iconColor;
+
+  const BatteryInfoContainer({super.key,
+    required this.icon,
+    required this.label,
+    required this.value,
+    this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(
+          icon,
+          color: iconColor,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.pink,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.pink,
+          ),
+        ),
+      ],
     );
   }
 }
