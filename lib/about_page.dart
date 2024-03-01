@@ -183,7 +183,7 @@ class _FAQItemState extends State<FAQItem> {
         widget.question,
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.green[900], // Updated text color
+          color: Colors.green[800], // Updated text color
         ),
       ),
       children: <Widget>[
