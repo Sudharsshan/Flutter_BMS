@@ -253,9 +253,115 @@ class BatteryInfoContainer extends StatelessWidget {
     );
   }
 }
+
+
+late double State_of_Charge;
+class SOC extends StatefulWidget{
+  late double percent;
+  SOC({super.key,
+  required this.percent});
+
+  @override
+  _SOCState createState() => _SOCState(percent);
+}
+
+class _SOCState extends State<SOC>{
+  String finalD = '';
+
+  _SOCState(double percent){
+    State_of_Charge = percent;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("Building radial gauge");
+    //This is you value 10 where you divide by 100 then you get the value
+    // between 0 -1 which is expected by the linerprogressindicator
+    //  Here you get your percentage and the assign it to the percentage
+
+    finalD = (State_of_Charge).toString(); // here you assign to the String
+    // or convert it to int as :finalD =(percentage).toInt().toString();
+  }
+
+
+  @override
+  Widget build(BuildContext context){
+    return SizedBox(
+      height: 300,
+      width: 200,
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
+          Expanded(
+            child: Center(
+              child: SizedBox(
+                width: 300,
+                height: 300,
+                child: SfRadialGauge(
+                  axes: <RadialAxis>[
+                    RadialAxis(
+                      minimum: 0,
+                      maximum: 100,
+                      showLabels: false,
+                      showTicks: false,
+                      axisLineStyle: AxisLineStyle(
+                        thickness: 0.1,
+                        color: Colors.grey[700],
+                        thicknessUnit: GaugeSizeUnit.factor,
+                      ),
+                      pointers: <GaugePointer>[
+                        //This method draws the radial gauge with the specified value
+                        RangePointer(
+                          value: 10,
+                          width: 0.1,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          color: widgetColor(100, 90),
+                          enableAnimation: true,
+                        ),
+                      ],
+                      annotations: const <GaugeAnnotation>[
+                        GaugeAnnotation(
+                          widget: Text(
+                            'State of Charge',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.pink,
+                            ),
+                          ),
+                          positionFactor: 0.2,
+                          angle: 90,
+                        ),
+                        GaugeAnnotation(
+                          widget: Text(
+                            '55%',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.pink,
+                            ),
+                          ),
+                          positionFactor: 0.5,
+                          angle: 90,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 22),
+        ],
+      ),
+    );
+  }
+}
+
+
 late double State_Of_Health;
-
-
 class SOH extends StatefulWidget {
 late double percent;
   SOH( {super.key,
@@ -273,11 +379,11 @@ class _SOHState extends State<SOH> {
     State_Of_Health = percent;
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("building State_Of_Health");
     
     //This is you value 10 where you divide by 100 then you get the value
     // between 0 -1 which is expected by the linerprogressindicator
@@ -298,10 +404,10 @@ class _SOHState extends State<SOH> {
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(100, State_Of_Health),
-        center: Text('State of Health: $finalD'),
+        center: Text('State of Health: $finalD', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25), ), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
-    
+        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
       ),
     );
   }
@@ -331,7 +437,7 @@ class _VOLTAGEState extends State<VOLTAGE> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print("building Voltage");
     //This is you value 10 where you divide by 100 then you get the value
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
@@ -349,11 +455,12 @@ class _VOLTAGEState extends State<VOLTAGE> {
         animation: true,
         lineHeight: 80.0,
         percent: percentValue(72, VoltageData),
-        center: Text('Voltage: $finalD V'),
+        center: Text('Voltage: $finalD V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),), //Overriding theme colors to prevent visibility issue
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
         barRadius: const Radius.elliptical(10, 20),
+        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
     
       ),
     );
@@ -384,7 +491,7 @@ class _CURRENTState extends State<CURRENT> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print("building Current");
     //This is you value 10 where you divide by 100 then you get the value
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
@@ -404,10 +511,10 @@ class _CURRENTState extends State<CURRENT> {
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(30, CurrentData),
-        center: Text('Current: $finalD A'),
+        center: Text('Current: $finalD A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(30, CurrentData),
-    
+        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
       ),
     );
   }
@@ -431,24 +538,28 @@ Color widgetColor(double max, double currentValue){
   double multiplyFactor = currentValue/max;
   Color color;
 
-  if(currentValue < (0.3*max))
+  if(currentValue <= (0.3*max))
     {
       //  <30% of max value
       //Color is RED
+      print("RED");
       color = const Color.fromARGB(255, 255, 0, 0);
     }
-  else if( currentValue > (0.3*max) && currentValue < (0.5*max)){
+  else if( currentValue > (0.3*max) && currentValue <= (0.5*max)){
     // > 30% && < 50%
     // Color is Orange
+    print("ORANGE");
     color = const Color.fromARGB(255, 255, 150, 0);
   }
-  else if( currentValue > (0.5*max) && currentValue < (0.8*max)){
+  else if( currentValue > (0.5*max) && currentValue <= (0.8*max)){
     // >50% && < 80%
     // Color is YELLOW
+    print("YELLOW");
     color = const Color.fromARGB(255, 255, 250, 0);
   }
   else {
     // Color is GREEN
+    print("GREEN");
     color = const Color.fromARGB(255, 0, 255, 0);
   }
   return color;
