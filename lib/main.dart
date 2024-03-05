@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
@@ -207,28 +208,15 @@ class _MyAppState extends State<MyApp>{
                             color: Colors.purple,
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
-                        child: const Text("State of Health"),
+                        child: SOH(percent: 0.54,),
                       ),
 
                       Container(
                         height: 80,
                         width: 500,
                         padding: const EdgeInsets.all(27),
-                        margin: const EdgeInsets.fromLTRB(30, 18, 30, 9),
-                        decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 203, 147, 201),
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.black,
-                                blurRadius: 10,
-                                offset: Offset(0.3, 0.60),
-                              )
-                            ]
-                        ),
-                        child: const SelectableText("Voltage",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 116, 71, 138)),),
+                        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                        child: VOLTAGE(percent: 0.7,),
                       ),
 
                       Container(
@@ -240,7 +228,7 @@ class _MyAppState extends State<MyApp>{
                             color: Colors.purple,
                             borderRadius: BorderRadius.all(Radius.circular(30))
                         ),
-                        child: const Text("Current"),
+                        child: CURRENT(percent: 0.3),
                       ),
                     ],
                   ),
@@ -296,3 +284,167 @@ class BatteryInfoContainer extends StatelessWidget {
     );
   }
 }
+late double State_Of_Health;
+
+
+class SOH extends StatefulWidget {
+late double percent;
+  SOH( {
+    required this.percent,
+});
+
+  @override
+  _SOHState createState() => _SOHState(percent);
+}
+
+class _SOHState extends State<SOH> {
+  String finalD = '';
+
+  _SOHState(double percent){
+    State_Of_Health = percent;
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+    //This is you value 10 where you divide by 100 then you get the value
+    // between 0 -1 which is expected by the linerprogressindicator
+    //  Here you get your percentage and the assign it to the percentage
+
+    finalD = (State_Of_Health*100).toString(); // here you asign to the String
+// or convert it to int as :finalD =(percentage * 100).toInt().toString();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: LinearPercentIndicator(
+          width: MediaQuery.of(context).size.width -120,
+          animation: true,
+          lineHeight: 40.0,
+          animationDuration: 2500,
+          percent: State_Of_Health,
+          center: Text('Voltage: $finalD'),
+          linearStrokeCap: LinearStrokeCap.roundAll,
+          progressColor: Colors.yellow,
+
+        ),
+      ),
+    );
+  }
+}
+
+
+late double VoltageData;
+class VOLTAGE extends StatefulWidget {
+  late double percent;
+  VOLTAGE( {
+    required this.percent,
+  });
+
+  @override
+  _VOLTAGEState createState() => _VOLTAGEState(percent);
+}
+
+class _VOLTAGEState extends State<VOLTAGE> {
+  String finalD = '';
+
+  _VOLTAGEState(double percent){
+    VoltageData = percent;
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //This is you value 10 where you divide by 100 then you get the value
+    // between 0 -1 which is expected by the linerprogressindicator
+    //  Here you get your percentage and the assign it to the percentage
+
+    finalD = (VoltageData*100).toString(); // here you asign to the String
+// or convert it to int as :finalD =(percentage * 100).toInt().toString();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: LinearPercentIndicator(
+          width: MediaQuery.of(context).size.width -120,
+          animation: true,
+          lineHeight: 40.0,
+          animationDuration: 2500,
+          percent: VoltageData,
+          center: Text('Voltage: $finalD'),
+          linearStrokeCap: LinearStrokeCap.roundAll,
+          progressColor: Colors.yellow,
+
+        ),
+      ),
+    );
+  }
+}
+
+
+late double CurrentData;
+class CURRENT extends StatefulWidget {
+  late double percent;
+  CURRENT( {
+    required this.percent,
+  });
+
+  @override
+  _CURRENTState createState() => _CURRENTState(percent);
+}
+
+class _CURRENTState extends State<CURRENT> {
+  String finalD = '';
+
+  _CURRENTState(double percent){
+    CurrentData = percent;
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //This is you value 10 where you divide by 100 then you get the value
+    // between 0 -1 which is expected by the linerprogressindicator
+    //  Here you get your percentage and the assign it to the percentage
+
+    finalD = (CurrentData*100).toString(); // here you asign to the String
+// or convert it to int as :finalD =(percentage * 100).toInt().toString();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: LinearPercentIndicator(
+          width: MediaQuery.of(context).size.width -120,
+          animation: true,
+          lineHeight: 40.0,
+          animationDuration: 2500,
+          percent: CurrentData,
+          center: Text('Current: $finalD'),
+          linearStrokeCap: LinearStrokeCap.roundAll,
+          progressColor: Colors.yellow,
+
+        ),
+      ),
+    );
+  }
+}
+
+
