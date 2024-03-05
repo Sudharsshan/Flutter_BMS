@@ -151,14 +151,7 @@ class _MyAppState extends State<MyApp>{
                                             value: 55,
                                             width: 0.1,
                                             sizeUnit: GaugeSizeUnit.factor,
-                                            gradient: SweepGradient(
-                                              colors: <Color>[
-                                                myColorRedLight,
-                                                myColorRedMedium,
-                                                myColorRedHeavy,
-                                              ],
-                                              stops: const <double>[0.0, 0.6, 1.0],
-                                            ),
+                                            color: widgetColor(100, 50),
                                             enableAnimation: true,
                                           ),
                                         ],
@@ -199,42 +192,18 @@ class _MyAppState extends State<MyApp>{
                         ),
                       ),
 
-                      Container(
-                        height: 80,
-                        width: 500,
-                        padding: const EdgeInsets.all(27),
-                        margin: const EdgeInsets.fromLTRB(30, 25, 30, 9),
-                        decoration: const BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.all(Radius.circular(30))
-                        ),
-                        child: SOH(percent: 0.54,),
-                      ),
+                      SOH(percent: 30),
 
-                      Container(
-                        height: 80,
-                        width: 500,
-                        padding: const EdgeInsets.all(27),
-                        margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-                        child: VOLTAGE(percent: 0.7,),
-                      ),
+                      VOLTAGE(percent: 70),
 
-                      Container(
-                        height: 80,
-                        width: 500,
-                        padding: const EdgeInsets.all(27),
-                        margin: const EdgeInsets.fromLTRB(30, 18, 30, 9),
-                        decoration: const BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.all(Radius.circular(30))
-                        ),
-                        child: CURRENT(percent: 0.3),
-                      ),
+                      CURRENT(percent: 12),
+                      
                     ],
                   ),
                 )
             ),
       ),
+      
       routes: {
         'settings': (context) => const Settings(),
         'home': (context) => MyApp(),
@@ -289,7 +258,7 @@ late double State_Of_Health;
 
 class SOH extends StatefulWidget {
 late double percent;
-  SOH( {
+  SOH( {super.key,
     required this.percent,
 });
 
@@ -314,26 +283,25 @@ class _SOHState extends State<SOH> {
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
 
-    finalD = (State_Of_Health*100).toString(); // here you asign to the String
+    finalD = (State_Of_Health).toString(); // here you assign to the String
 // or convert it to int as :finalD =(percentage * 100).toInt().toString();
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width -120,
-          animation: true,
-          lineHeight: 40.0,
-          animationDuration: 2500,
-          percent: State_Of_Health,
-          center: Text('Voltage: $finalD'),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: Colors.yellow,
-
-        ),
+    return Center(
+      child: LinearPercentIndicator(
+        width: MediaQuery.of(context).size.width -120,
+        animation: true,
+        lineHeight: 80.0,
+        barRadius: const Radius.elliptical(10, 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        percent: percentValue(100, State_Of_Health),
+        center: Text('State of Health: $finalD'),
+        linearStrokeCap: LinearStrokeCap.roundAll,
+        progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
+    
       ),
     );
   }
@@ -343,7 +311,7 @@ class _SOHState extends State<SOH> {
 late double VoltageData;
 class VOLTAGE extends StatefulWidget {
   late double percent;
-  VOLTAGE( {
+  VOLTAGE( {super.key,
     required this.percent,
   });
 
@@ -368,26 +336,25 @@ class _VOLTAGEState extends State<VOLTAGE> {
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
 
-    finalD = (VoltageData*100).toString(); // here you asign to the String
+    finalD = (VoltageData).toString(); // here you asign to the String
 // or convert it to int as :finalD =(percentage * 100).toInt().toString();
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width -120,
-          animation: true,
-          lineHeight: 40.0,
-          animationDuration: 2500,
-          percent: VoltageData,
-          center: Text('Voltage: $finalD'),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: Colors.yellow,
-
-        ),
+    return Center(
+      child: LinearPercentIndicator(
+        width: MediaQuery.of(context).size.width -120,
+        animation: true,
+        lineHeight: 80.0,
+        percent: percentValue(72, VoltageData),
+        center: Text('Voltage: $finalD V'),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        linearStrokeCap: LinearStrokeCap.roundAll,
+        progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
+        barRadius: const Radius.elliptical(10, 20),
+    
       ),
     );
   }
@@ -422,29 +389,70 @@ class _CURRENTState extends State<CURRENT> {
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
 
-    finalD = (CurrentData*100).toString(); // here you asign to the String
+    finalD = (CurrentData).toString(); // here you asign to the String
 // or convert it to int as :finalD =(percentage * 100).toInt().toString();
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width -120,
-          animation: true,
-          lineHeight: 40.0,
-          animationDuration: 2500,
-          percent: CurrentData,
-          center: Text('Current: $finalD'),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: Colors.yellow,
-
-        ),
+    return Center(
+      child: LinearPercentIndicator(
+        width: MediaQuery.of(context).size.width -120,
+        animation: true,
+        lineHeight: 80.0,
+        barRadius: const Radius.elliptical(10, 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        percent: percentValue(30, CurrentData),
+        center: Text('Current: $finalD A'),
+        linearStrokeCap: LinearStrokeCap.roundAll,
+        progressColor: widgetColor(30, CurrentData),
+    
       ),
     );
   }
+}
+
+//This method calculates the percent of the gauge (linear and circular) to be filled
+//with the given parameters
+double percentValue (double max, double currentValue){
+  print((currentValue/max)); //for  debug purpose
+  return (currentValue/max);
+}
+
+//This method determines the color of widget according to the values provided
+/*
+<= 30% : RED
+> 30% && <50% : ORANGE
+> 50% && <80% : YELLOW
+> 80% : GREEN
+ */
+Color widgetColor(double max, double currentValue){
+  double multiplyFactor = currentValue/max;
+  Color color;
+
+  if(currentValue < (0.3*max))
+    {
+      //  <30% of max value
+      //Color is RED
+      color = const Color.fromARGB(255, 255, 0, 0);
+    }
+  else if( currentValue > (0.3*max) && currentValue < (0.5*max)){
+    // > 30% && < 50%
+    // Color is Orange
+    color = const Color.fromARGB(255, 255, 150, 0);
+  }
+  else if( currentValue > (0.5*max) && currentValue < (0.8*max)){
+    // >50% && < 80%
+    // Color is YELLOW
+    color = const Color.fromARGB(255, 255, 250, 0);
+  }
+  else {
+    // Color is GREEN
+    color = const Color.fromARGB(255, 0, 255, 0);
+  }
+  return color;
+
 }
 
 
