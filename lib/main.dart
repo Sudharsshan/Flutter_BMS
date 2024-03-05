@@ -122,75 +122,7 @@ class _MyAppState extends State<MyApp>{
                     children: [
 
                       //Implemented the radial gauge
-                      SizedBox(
-                        height: 300,
-                        width: 200,
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            Expanded(
-                              child: Center(
-                                child: SizedBox(
-                                  width: 300,
-                                  height: 300,
-                                  child: SfRadialGauge(
-                                    axes: <RadialAxis>[
-                                      RadialAxis(
-                                        minimum: 0,
-                                        maximum: 100,
-                                        showLabels: false,
-                                        showTicks: false,
-                                        axisLineStyle: AxisLineStyle(
-                                          thickness: 0.1,
-                                          color: Colors.grey[700],
-                                          thicknessUnit: GaugeSizeUnit.factor,
-                                        ),
-                                        pointers: <GaugePointer>[
-                                          //This method draws the radial gauge with the specified value
-                                          RangePointer(
-                                            value: 55,
-                                            width: 0.1,
-                                            sizeUnit: GaugeSizeUnit.factor,
-                                            color: widgetColor(100, 50),
-                                            enableAnimation: true,
-                                          ),
-                                        ],
-                                        annotations: const <GaugeAnnotation>[
-                                          GaugeAnnotation(
-                                            widget: Text(
-                                              'State of Charge',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.pink,
-                                              ),
-                                            ),
-                                            positionFactor: 0.2,
-                                            angle: 90,
-                                          ),
-                                          GaugeAnnotation(
-                                            widget: Text(
-                                              '55%',
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.pink,
-                                              ),
-                                            ),
-                                            positionFactor: 0.5,
-                                            angle: 90,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                          ],
-                        ),
-                      ),
+                      SOC(percent: 98),
 
                       SOH(percent: 30),
 
@@ -314,15 +246,15 @@ class _SOCState extends State<SOC>{
                       pointers: <GaugePointer>[
                         //This method draws the radial gauge with the specified value
                         RangePointer(
-                          value: 10,
+                          value: State_of_Charge,
                           width: 0.1,
                           sizeUnit: GaugeSizeUnit.factor,
-                          color: widgetColor(100, 90),
+                          color: widgetColor(100, State_of_Charge),
                           enableAnimation: true,
                         ),
                       ],
-                      annotations: const <GaugeAnnotation>[
-                        GaugeAnnotation(
+                      annotations: <GaugeAnnotation>[
+                        const GaugeAnnotation(
                           widget: Text(
                             'State of Charge',
                             style: TextStyle(
@@ -336,8 +268,8 @@ class _SOCState extends State<SOC>{
                         ),
                         GaugeAnnotation(
                           widget: Text(
-                            '55%',
-                            style: TextStyle(
+                            '$finalD %',
+                            style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               color: Colors.pink,
@@ -407,7 +339,6 @@ class _SOHState extends State<SOH> {
         center: Text('State of Health: $finalD', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25), ), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
-        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
       ),
     );
   }
@@ -460,7 +391,6 @@ class _VOLTAGEState extends State<VOLTAGE> {
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
         barRadius: const Radius.elliptical(10, 20),
-        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
     
       ),
     );
@@ -514,7 +444,6 @@ class _CURRENTState extends State<CURRENT> {
         center: Text('Current: $finalD A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(30, CurrentData),
-        backgroundColor: const Color.fromARGB(100, 255, 255, 255),
       ),
     );
   }
