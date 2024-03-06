@@ -108,9 +108,15 @@ class _FAQItemState extends State<FAQItem> {
           color: Colors.deepPurple[900], // Updated text color
         ),
       ),
+      onExpansionChanged: (expanded) {
+        setState(() {
+          _expanded = expanded;
+        });
+      },
+      initiallyExpanded: _expanded,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(
             widget.answer,
             style: TextStyle(
@@ -120,12 +126,6 @@ class _FAQItemState extends State<FAQItem> {
           ),
         ),
       ],
-      onExpansionChanged: (expanded) {
-        setState(() {
-          _expanded = expanded;
-        });
-      },
-      initiallyExpanded: _expanded,
     );
   }
 }

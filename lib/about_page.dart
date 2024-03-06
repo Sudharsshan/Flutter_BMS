@@ -107,11 +107,11 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Description of the App',
               style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
@@ -119,15 +119,15 @@ class _AboutPageState extends State<AboutPage> {
                 color: Colors.redAccent, // Update text color
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Text(
-              'Your app description goes here. This is where you describe the purpose or main features of your app.',
+              'A simple app to monitor battery parameters of your EV.',
               style: TextStyle(
                 fontSize: 18.0, // Increased font size for better readability
                 color: Colors.green[800], // Update text color
               ),
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             Text(
               'FAQs',
               style: TextStyle(
@@ -136,7 +136,7 @@ class _AboutPageState extends State<AboutPage> {
                 color: Colors.redAccent[900], // Update text color
               ),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             FAQItem(
               question: 'Q: What is a self-driving electric vehicle (EV)?',
               answer: 'A self-driving electric vehicle'
@@ -186,9 +186,15 @@ class _FAQItemState extends State<FAQItem> {
           color: Colors.green[800], // Updated text color
         ),
       ),
+      onExpansionChanged: (expanded) {
+        setState(() {
+          _expanded = expanded;
+        });
+      },
+      initiallyExpanded: _expanded,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Text(
             widget.answer,
             style: TextStyle(
@@ -198,12 +204,6 @@ class _FAQItemState extends State<FAQItem> {
           ),
         ),
       ],
-      onExpansionChanged: (expanded) {
-        setState(() {
-          _expanded = expanded;
-        });
-      },
-      initiallyExpanded: _expanded,
     );
   }
 }
