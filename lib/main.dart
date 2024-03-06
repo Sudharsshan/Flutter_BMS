@@ -330,13 +330,13 @@ class _SOHState extends State<SOH> {
   Widget build(BuildContext context) {
     return Center(
       child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width -120,
+        width: MediaQuery.of(context).size.width,
         animation: true,
         lineHeight: 80.0,
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(100, State_Of_Health),
-        center: Text('State of Health: $finalD', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25), ), //Overriding theme colors to prevent visibility issue
+        center: Text('State of Health: $finalD', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), ), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
       ),
@@ -382,11 +382,11 @@ class _VOLTAGEState extends State<VOLTAGE> {
   Widget build(BuildContext context) {
     return Center(
       child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width -120,
+        width: MediaQuery.of(context).size.width,
         animation: true,
         lineHeight: 80.0,
         percent: percentValue(72, VoltageData),
-        center: Text('Voltage: $finalD V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),), //Overriding theme colors to prevent visibility issue
+        center: Text('Voltage: $finalD V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
@@ -435,13 +435,13 @@ class _CURRENTState extends State<CURRENT> {
   Widget build(BuildContext context) {
     return Center(
       child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width -120,
+        width: MediaQuery.of(context).size.width,
         animation: true,
         lineHeight: 80.0,
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(30, CurrentData),
-        center: Text('Current: $finalD A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),), //Overriding theme colors to prevent visibility issue
+        center: Text('Current: $finalD A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(30, CurrentData),
       ),
