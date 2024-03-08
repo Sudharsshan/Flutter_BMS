@@ -1,6 +1,7 @@
 //Importing screens for navigation through the app
 import 'package:batterymanagementsystem/about_page.dart';
 import 'package:batterymanagementsystem/settings.dart';
+import 'package:batterymanagementsystem/theme.dart';
 
 //Importing packages
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp>{
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false, //To avoid the DEBUG banner
-      theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
+      theme: isDarkMode ? ThemeClass.darkTheme : ThemeClass.lightTheme,
       //App theme is set UNIVERSAL via this method
       home: Builder(
         builder: (BuildContext context) =>
@@ -65,9 +66,9 @@ class _MyAppState extends State<MyApp>{
                 appBar: AppBar(
                   centerTitle: true,
                   title: const Text("BMS"),
-                  backgroundColor: const Color.fromARGB(255, 203, 147, 201),
+                  backgroundColor: ThemeClass().lightPrimaryColor,
+                  foregroundColor: ThemeClass().secondaryColor,
                   elevation: 30,
-                  foregroundColor: const Color.fromARGB(255, 116, 71, 138),
                   shadowColor: Colors.black,
                 ),
 
