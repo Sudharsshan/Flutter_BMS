@@ -123,7 +123,7 @@ class _MyAppState extends State<MyApp>{
                     children: [
 
                       //Implemented the radial gauge
-                      SOC(percent: 98),
+                      SOC(percent: 25),
 
                       SOH(percent: 30),
 
@@ -337,7 +337,7 @@ class _SOHState extends State<SOH> {
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(100, State_Of_Health),
-        center: Text('State of Health: $finalD', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), ), //Overriding theme colors to prevent visibility issue
+        center: Text('State of Health: ${finalD}%', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), ), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
       ),
@@ -387,7 +387,7 @@ class _VOLTAGEState extends State<VOLTAGE> {
         animation: true,
         lineHeight: 80.0,
         percent: percentValue(72, VoltageData),
-        center: Text('Voltage: $finalD V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
+        center: Text('Voltage: ${finalD}V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
@@ -442,7 +442,7 @@ class _CURRENTState extends State<CURRENT> {
         barRadius: const Radius.elliptical(10, 20),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         percent: percentValue(30, CurrentData),
-        center: Text('Current: $finalD A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
+        center: Text('Current: ${finalD}A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
         linearStrokeCap: LinearStrokeCap.roundAll,
         progressColor: widgetColor(30, CurrentData),
       ),
@@ -473,24 +473,24 @@ Color widgetColor(double max, double currentValue){
       //  <30% of max value
       //Color is RED
       print("RED");
-      color = const Color.fromARGB(255, 255, 0, 0);
+      color = const Color.fromARGB(200, 255, 0, 0);
     }
   else if( currentValue > (0.3*max) && currentValue <= (0.5*max)){
     // > 30% && < 50%
     // Color is Orange
     print("ORANGE");
-    color = const Color.fromARGB(255, 255, 150, 0);
+    color = const Color.fromARGB(200, 255, 150, 0);
   }
   else if( currentValue > (0.5*max) && currentValue <= (0.8*max)){
     // >50% && < 80%
     // Color is YELLOW
     print("YELLOW");
-    color = const Color.fromARGB(255, 255, 250, 0);
+    color = const Color.fromARGB(200, 255, 250, 0);
   }
   else {
     // Color is GREEN
     print("GREEN");
-    color = const Color.fromARGB(255, 0, 255, 0);
+    color = const Color.fromARGB(200, 0, 255, 0);
   }
   return color;
 
