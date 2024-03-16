@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ThemeClass {
-  Color lightPrimaryColor = const Color.fromARGB(255, 139, 52, 224);
+  Color lightPrimaryColor = const Color.fromARGB(255, 26, 236, 91);
   Color darkPrimaryColor = const Color.fromARGB(255, 21, 0, 66);
-  Color secondaryColor = const Color.fromARGB(255, 214, 0, 255);
+  Color secondaryColor = const Color.fromARGB(255, 253, 253, 253);
   Color accentColor = const Color.fromARGB(255, 253, 208, 187);
 
   static ThemeData lightTheme = ThemeData(

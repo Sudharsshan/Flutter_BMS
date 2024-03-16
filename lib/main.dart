@@ -73,7 +73,7 @@ class _MyAppState extends State<MyApp>{
                 ),
 
                 drawer: Drawer(
-                  backgroundColor: Colors.deepPurple[200],
+                  backgroundColor: ThemeClass().lightPrimaryColor,
                   child: Column(
                     children: [
                       const DrawerHeader(child: Column(

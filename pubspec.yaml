@@ -35,6 +35,7 @@ dependencies:
   syncfusion_flutter_gauges: ^24.2.7
   awesome_notifications: ^0.9.2
   flutter_local_notifications: ^16.3.2
+  flutter_native_splash: 2.3.10
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -49,20 +50,30 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
 
-flutter_icons:
-  image_path: lib/icon/appIcon.png
-  android: "launcher_icon"
-  ios: true
-  min_sdk_android: 21
+  flutter_launcher_icons: "^0.13.1"
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^3.0.1
+flutter_launcher_icons:
+  #App icon by <a href="https://www.flaticon.com/free-icons/electric-car" title="electric car icons">Electric car icons created by apien - Flaticon</a>
+
+  image_path: "assets/icon/icon2.png"
+  android: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  color_dark: "#000000"
+  android_12:
+    image: "assets/icon/icon2.png"
+    color: "#FFFFFF"
+    color_dark: "#000000"
+
+
+# The "flutter_lints" package below contains a set of recommended lints to
+# encourage good coding practices. The lint set provided by the package is
+# activated in the `analysis_options.yaml` file located at the root of your
+# package. See that file for information about deactivating specific lint
+# rules and activating additional ones.
+flutter_lints: ^3.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

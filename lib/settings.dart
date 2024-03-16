@@ -1,3 +1,4 @@
+import 'package:batterymanagementsystem/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
@@ -46,13 +47,13 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Settings"),
-          backgroundColor: const Color.fromARGB(255, 201, 151, 207),
+          backgroundColor: ThemeClass().lightPrimaryColor,
+          foregroundColor: ThemeClass().secondaryColor,
           elevation: 30,
-          foregroundColor: const Color.fromARGB(255, 116, 71, 138),
           shadowColor: Colors.black,
         ),
         drawer: Drawer(
-          backgroundColor: Colors.deepPurple[200],
+          backgroundColor: ThemeClass().lightPrimaryColor,
           child: Column(
             children: [
               const DrawerHeader(

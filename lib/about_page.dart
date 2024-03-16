@@ -1,3 +1,4 @@
+import 'package:batterymanagementsystem/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
@@ -39,14 +40,14 @@ class _about_page extends State<about_page>{
         appBar: AppBar(
           centerTitle:true,
           title: const Text("About"),
-          backgroundColor: const Color.fromARGB(255, 203, 147, 201),
+          backgroundColor: ThemeClass().lightPrimaryColor,
+          foregroundColor: ThemeClass().secondaryColor,
           elevation: 30,
-          foregroundColor: const Color.fromARGB(255, 116, 71, 138),
           shadowColor: Colors.black,
         ),
 
         drawer: Drawer(
-          backgroundColor: Colors.deepPurple[200],
+          backgroundColor:  ThemeClass().lightPrimaryColor,
           child: Column(
             children: [
               const DrawerHeader(child: Column(
