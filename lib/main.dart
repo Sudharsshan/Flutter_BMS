@@ -1,4 +1,5 @@
 //Importing screens for navigation through the app
+
 import 'package:batterymanagementsystem/about_page.dart';
 import 'package:batterymanagementsystem/settings.dart';
 import 'package:batterymanagementsystem/theme.dart';
@@ -38,12 +39,78 @@ class _MyAppState extends State<MyApp>{
   late Color myColorRedMedium = const Color.fromARGB(255, 255, 58, 58);
   late Color myColorRedHeavy = const Color.fromARGB(255, 255, 0, 0);
 
+  late double field1, field2, field3, field5;
+  late Timer _timer;
+  bool _isRefreshing = false;
+
 
   //Initialises the shared_preferences for use into the app
   @override
   void initState(){
     super.initState();
     _loadTheme();
+
+    //Get the data from the thingSpeak cloud to update it to the UI
+    fetchData();
+
+    _timer = Timer.periodic(Duration(minutes: 3), (timer) {
+      fetchData();
+    });
+  }
+
+  void dispose(){
+    _timer.cancel();
+    super.dispose();
+  }
+
+
+  Future<void> fetchData() async {
+    try {
+      final fetchLink = Uri.parse('https://api.thingspeak.com/channels/1943049/feeds.json?results=1');
+
+      final response = await http.get(
+        fetchLink,
+      );
+      print(("Data is fetched every 3 seconds"));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> lastValueFromResponse = data['feeds'];
+
+
+        setState(() {
+          for(var data in lastValueFromResponse){
+            field1 = double.parse(data['field1']);
+            field2 = double.parse(data['field2']);
+            field3 = double.parse(data['field3']);
+            field5 = double.parse(data['field5']);
+          }
+        });
+      } else {
+        setState(() {
+            print(("Error in fetching data"));
+            field1 = field2 = field3 = field5 = 00;
+        });
+      }
+
+    } catch (error) {
+      setState(() {
+        print("Error is: ${error}");
+        field1 = field2 = field3 = field5 = 00;
+      });
+    }
+  }
+
+  Future<void> refreshData() async {
+    setState(() {
+      _isRefreshing = true;
+    });
+
+    await fetchData();
+
+    setState(() {
+      _isRefreshing = false;
+    });
   }
 
   //This method will fetch the Theme value from the shared_preferences
@@ -70,6 +137,12 @@ class _MyAppState extends State<MyApp>{
                   foregroundColor: ThemeClass().secondaryColor,
                   elevation: 30,
                   shadowColor: Colors.black,
+                  actions: [
+                    IconButton(
+                        onPressed: _isRefreshing ? null : refreshData,
+                        icon: Icon(Icons.refresh)
+                    ),
+                  ],
                 ),
 
                 drawer: Drawer(
@@ -123,13 +196,13 @@ class _MyAppState extends State<MyApp>{
                     children: [
 
                       //Implemented the radial gauge
-                      SOC(percent: 25),
+                      SOC(percent: field2),
 
-                      SOH(percent: 30),
+                      SOH(percent: field5),
 
-                      VOLTAGE(percent: 70),
+                      VOLTAGE(percent: field3),
 
-                      CURRENT(percent: 12),
+                      CURRENT(percent: field1),
                       
                     ],
                   ),
@@ -386,11 +459,11 @@ class _VOLTAGEState extends State<VOLTAGE> {
         width: MediaQuery.of(context).size.width,
         animation: true,
         lineHeight: 80.0,
-        percent: percentValue(72, VoltageData),
+        percent: percentValue(48, VoltageData),
         center: Text('Voltage: ${finalD}V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         linearStrokeCap: LinearStrokeCap.roundAll,
-        progressColor: widgetColor(72, VoltageData), //CHANGE THIS AS PER THE VALUE
+        progressColor: widgetColor(48, VoltageData), //CHANGE THIS AS PER THE VALUE
         barRadius: const Radius.elliptical(10, 20),
     
       ),
