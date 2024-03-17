@@ -1,7 +1,11 @@
 //Importing screens for navigation through the app
 
-import 'package:batterymanagementsystem/about_page.dart';
-import 'package:batterymanagementsystem/settings.dart';
+import 'package:batterymanagementsystem/appLayouts/about_page.dart';
+import 'package:batterymanagementsystem/appLayouts/settings.dart';
+import 'package:batterymanagementsystem/progressWidgets/currentWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/socWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/sohWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/voltageWidget.dart';
 import 'package:batterymanagementsystem/theme.dart';
 
 //Importing packages
@@ -12,8 +16,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 //This var stores data from the api response received
@@ -189,8 +191,8 @@ class _MyAppState extends State<MyApp>{
                   ),
                 ),
 
-                body: Builder(
-                  builder: (BuildContext context) => LiquidPullToRefresh(
+                body: LiquidPullToRefresh(
+                    springAnimationDurationInMilliseconds: 300,
                     onRefresh: fetchData,
                     color: ThemeClass().lightPrimaryColor,
                     child: ListView(
@@ -204,13 +206,11 @@ class _MyAppState extends State<MyApp>{
                         VOLTAGE(percent: field3),
 
                         CURRENT(percent: field1),
-
                       ],
                     ),
                   ),
                 )
             ),
-      ),
       
       routes: {
         'settings': (context) => const Settings(),
@@ -221,309 +221,7 @@ class _MyAppState extends State<MyApp>{
   }
 }
 
-class BatteryInfoContainer extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color? iconColor;
 
-  const BatteryInfoContainer({super.key,
-    required this.icon,
-    required this.label,
-    required this.value,
-    this.iconColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: iconColor,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.pink,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.pink,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-late double State_of_Charge;
-class SOC extends StatefulWidget{
-  late double percent;
-  SOC({super.key,
-  required this.percent});
-
-  @override
-  _SOCState createState() => _SOCState(percent);
-}
-
-class _SOCState extends State<SOC>{
-  String finalD = '';
-
-  _SOCState(double percent){
-    State_of_Charge = percent;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("Building radial gauge");
-    //This is you value 10 where you divide by 100 then you get the value
-    // between 0 -1 which is expected by the linerprogressindicator
-    //  Here you get your percentage and the assign it to the percentage
-
-    finalD = (State_of_Charge).toString(); // here you assign to the String
-    // or convert it to int as :finalD =(percentage).toInt().toString();
-  }
-
-
-  @override
-  Widget build(BuildContext context){
-    return SizedBox(
-      height: 300,
-      width: 200,
-      child: Column(
-        children: [
-          const SizedBox(height: 16),
-          Expanded(
-            child: Center(
-              child: SizedBox(
-                width: 300,
-                height: 300,
-                child: SfRadialGauge(
-                  axes: <RadialAxis>[
-                    RadialAxis(
-                      minimum: 0,
-                      maximum: 100,
-                      showLabels: false,
-                      showTicks: false,
-                      axisLineStyle: AxisLineStyle(
-                        thickness: 0.1,
-                        color: Colors.grey[700],
-                        thicknessUnit: GaugeSizeUnit.factor,
-                      ),
-                      pointers: <GaugePointer>[
-                        //This method draws the radial gauge with the specified value
-                        RangePointer(
-                          value: State_of_Charge,
-                          width: 0.1,
-                          sizeUnit: GaugeSizeUnit.factor,
-                          color: widgetColor(100, State_of_Charge),
-                          enableAnimation: true,
-                        ),
-                      ],
-                      annotations: <GaugeAnnotation>[
-                        const GaugeAnnotation(
-                          widget: Text(
-                            'State of Charge',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pink,
-                            ),
-                          ),
-                          positionFactor: 0.2,
-                          angle: 90,
-                        ),
-                        GaugeAnnotation(
-                          widget: Text(
-                            '$finalD %',
-                            style: const TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pink,
-                            ),
-                          ),
-                          positionFactor: 0.5,
-                          angle: 90,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 22),
-        ],
-      ),
-    );
-  }
-}
-
-
-late double State_Of_Health;
-class SOH extends StatefulWidget {
-late double percent;
-  SOH( {super.key,
-    required this.percent,
-});
-
-  @override
-  _SOHState createState() => _SOHState(percent);
-}
-
-class _SOHState extends State<SOH> {
-  String finalD = '';
-
-  _SOHState(double percent){
-    State_Of_Health = percent;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("building State_Of_Health");
-    
-    //This is you value 10 where you divide by 100 then you get the value
-    // between 0 -1 which is expected by the linerprogressindicator
-    //  Here you get your percentage and the assign it to the percentage
-
-    finalD = (State_Of_Health).toString(); // here you assign to the String
-// or convert it to int as :finalD =(percentage * 100).toInt().toString();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width,
-        animation: true,
-        lineHeight: 80.0,
-        barRadius: const Radius.elliptical(10, 20),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        percent: percentValue(100, State_Of_Health),
-        center: Text('State of Health: ${finalD}%', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold), ), //Overriding theme colors to prevent visibility issue
-        linearStrokeCap: LinearStrokeCap.roundAll,
-        progressColor: widgetColor(100, State_Of_Health), //CHANGE THIS AS PER VALUE
-      ),
-    );
-  }
-}
-
-
-late double VoltageData;
-class VOLTAGE extends StatefulWidget {
-  late double percent;
-  VOLTAGE( {super.key,
-    required this.percent,
-  });
-
-  @override
-  _VOLTAGEState createState() => _VOLTAGEState(percent);
-}
-
-class _VOLTAGEState extends State<VOLTAGE> {
-  String finalD = '';
-
-  _VOLTAGEState(double percent){
-    VoltageData = percent;
-  }
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("building Voltage");
-    //This is you value 10 where you divide by 100 then you get the value
-    // between 0 -1 which is expected by the linerprogressindicator
-    //  Here you get your percentage and the assign it to the percentage
-
-    finalD = (VoltageData).toString(); // here you asign to the String
-// or convert it to int as :finalD =(percentage * 100).toInt().toString();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width,
-        animation: true,
-        lineHeight: 80.0,
-        percent: percentValue(48, VoltageData),
-        center: Text('Voltage: ${finalD}V', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        linearStrokeCap: LinearStrokeCap.roundAll,
-        progressColor: widgetColor(48, VoltageData), //CHANGE THIS AS PER THE VALUE
-        barRadius: const Radius.elliptical(10, 20),
-    
-      ),
-    );
-  }
-}
-
-
-late double CurrentData;
-class CURRENT extends StatefulWidget {
-  late double percent;
-  CURRENT( {
-    required this.percent,
-  });
-
-  @override
-  _CURRENTState createState() => _CURRENTState(percent);
-}
-
-class _CURRENTState extends State<CURRENT> {
-  String finalD = '';
-
-  _CURRENTState(double percent){
-    CurrentData = percent;
-  }
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print("building Current");
-    //This is you value 10 where you divide by 100 then you get the value
-    // between 0 -1 which is expected by the linerprogressindicator
-    //  Here you get your percentage and the assign it to the percentage
-
-    finalD = (CurrentData).toString(); // here you asign to the String
-// or convert it to int as :finalD =(percentage * 100).toInt().toString();
-
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: LinearPercentIndicator(
-        width: MediaQuery.of(context).size.width,
-        animation: true,
-        lineHeight: 80.0,
-        barRadius: const Radius.elliptical(10, 20),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        percent: percentValue(30, CurrentData),
-        center: Text('Current: ${finalD}A', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),), //Overriding theme colors to prevent visibility issue
-        linearStrokeCap: LinearStrokeCap.roundAll,
-        progressColor: widgetColor(30, CurrentData),
-      ),
-    );
-  }
-}
 
 //This method calculates the percent of the gauge (linear and circular) to be filled
 //with the given parameters
