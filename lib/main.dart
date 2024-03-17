@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 //This var stores data from the api response received
 String responseData = 'Loading...';
@@ -43,13 +44,12 @@ class _MyAppState extends State<MyApp>{
   late Timer _timer;
   bool _isRefreshing = false;
 
-
   //Initialises the shared_preferences for use into the app
   @override
   void initState(){
     super.initState();
     _loadTheme();
-
+    
     //Get the data from the thingSpeak cloud to update it to the UI
     fetchData();
 
@@ -64,26 +64,27 @@ class _MyAppState extends State<MyApp>{
   }
 
 
+
   Future<void> fetchData() async {
+
     try {
       final fetchLink = Uri.parse('https://api.thingspeak.com/channels/1943049/feeds.json?results=1');
 
       final response = await http.get(
         fetchLink,
       );
-      print(("Data is fetched every 3 seconds"));
-
+      print(("Data is fetched every 3 minutes"));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final List<dynamic> lastValueFromResponse = data['feeds'];
-
-
         setState(() {
+          print("Initializing values");
           for(var data in lastValueFromResponse){
             field1 = double.parse(data['field1']);
             field2 = double.parse(data['field2']);
             field3 = double.parse(data['field3']);
             field5 = double.parse(data['field5']);
+            print("Field1: ${field1}");
           }
         });
       } else {
@@ -92,7 +93,6 @@ class _MyAppState extends State<MyApp>{
             field1 = field2 = field3 = field5 = 00;
         });
       }
-
     } catch (error) {
       setState(() {
         print("Error is: ${error}");
@@ -123,6 +123,7 @@ class _MyAppState extends State<MyApp>{
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner: false, //To avoid the DEBUG banner
       theme: isDarkMode ? ThemeClass.darkTheme : ThemeClass.lightTheme,
@@ -162,8 +163,6 @@ class _MyAppState extends State<MyApp>{
                         onTap: () {
                           //Here this isn't required as this is the HOME screen
                           HapticFeedback.lightImpact();
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, 'home');
                         },
                       ),
 
@@ -191,20 +190,23 @@ class _MyAppState extends State<MyApp>{
                 ),
 
                 body: Builder(
-                  builder: (BuildContext context) => ListView(
-                    scrollDirection: Axis.vertical,
-                    children: [
+                  builder: (BuildContext context) => LiquidPullToRefresh(
+                    onRefresh: fetchData,
+                    color: ThemeClass().lightPrimaryColor,
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        //Implemented the radial gauge
+                        SOC(percent: field2),
 
-                      //Implemented the radial gauge
-                      SOC(percent: field2),
+                        SOH(percent: field5),
 
-                      SOH(percent: field5),
+                        VOLTAGE(percent: field3),
 
-                      VOLTAGE(percent: field3),
+                        CURRENT(percent: field1),
 
-                      CURRENT(percent: field1),
-                      
-                    ],
+                      ],
+                    ),
                   ),
                 )
             ),
