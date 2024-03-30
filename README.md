@@ -6,7 +6,8 @@ A BMS app for EV.
 - State of health
 - Voltage
 - Current
-    These values are fetched from a could server and shown in the app with the help of API.
+
+These values are fetched from a could server and shown in the app with the help of API.
 
 # Features
 
@@ -17,14 +18,19 @@ A BMS app for EV.
 
 # For making any changes in the files, follow the steps:
 
-- Open android studio, start a new project from *version control* and paste this git's URL.
-- After making the necessary changes, in *version control* of android studio, make a *commit* with any changes you have made.
-- Then *push* it to "master" branch for uploading your changes. 
+Fork this repo, clone it locally, make changes and initiate a pull request. Upon evaluation, the request may be accepted and merged with the master branch. Please describe the changes made briefly and why.
 
 # Installation
 
-- Android Studio => get from version control => copy & paste the git link => run and check the app
+Android Studio => get from version control => copy & paste the git link => run and check the app
 
-# Got a problem?
+# Problems to  be resolved in future releases
+
+- Refresh button does not refresh the UI, known ways to refresh the UI is either by changing the app screen from main to settings or about, or waiting for automatic refresh.
+- Splash Screen needs to be changed
+- App icon needs to be changed
+- Pull down refresh has similar issues, so pleae wait until version V2.0 is released.
+
+# Got a problem? (Anything other than mentioned above)
 
 Create an Issue under issues with a brief description of the issue (please provide a log as well).
