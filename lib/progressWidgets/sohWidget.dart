@@ -7,6 +7,7 @@ import '../main.dart';
  */
 
 late double State_Of_Health;
+//ignore: must_be_immutable
 class SOH extends StatefulWidget {
   late double percent;
   SOH( {super.key,
@@ -26,7 +27,6 @@ class _SOHState extends State<SOH> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("building State_Of_Health");
 

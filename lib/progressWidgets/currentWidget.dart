@@ -3,6 +3,7 @@ import 'package:batterymanagementsystem/main.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 late double CurrentData;
+//ignore: must_be_immutable
 class CURRENT extends StatefulWidget {
   late double percent;
   CURRENT( {
@@ -23,7 +24,6 @@ class _CURRENTState extends State<CURRENT> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("building Current");
     //This is you value 10 where you divide by 100 then you get the value

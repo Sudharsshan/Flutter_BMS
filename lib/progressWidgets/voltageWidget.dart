@@ -7,6 +7,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
  */
 
 late double VoltageData;
+//ignore: must_be_immutable
 class VOLTAGE extends StatefulWidget {
   late double percent;
   VOLTAGE( {super.key,
@@ -27,14 +28,13 @@ class _VOLTAGEState extends State<VOLTAGE> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("building Voltage");
     //This is you value 10 where you divide by 100 then you get the value
     // between 0 -1 which is expected by the linerprogressindicator
     //  Here you get your percentage and the assign it to the percentage
 
-    finalD = (VoltageData).toString(); // here you asign to the String
+    finalD = (VoltageData).toString(); // here you assign to the String
 // or convert it to int as :finalD =(percentage * 100).toInt().toString();
 
   }
