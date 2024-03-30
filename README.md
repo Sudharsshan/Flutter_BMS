@@ -1,12 +1,19 @@
-# batterymanagementsystem
+# Info
 
-A BMS app for EV
+A BMS app for EV. 
+    This app monitors several parameters of the battery of the EV such as:
+- State of charge
+- State of health
+- Voltage
+- Current
+    These values are fetched from a could server and shown in the app with the help of API.
 
 # Features
 
 - Background refresh (every 3 minutes)
 - light mode and dark mode for comfortable UI
 - Added common FAQs in About page
+- Implemented web, macos and IOS support as well!
 
 # For making any changes in the files, follow the steps:
 
