@@ -47,13 +47,13 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Settings"),
-          backgroundColor: ThemeClass().lightPrimaryColor,
-          foregroundColor: ThemeClass().secondaryColor,
+          backgroundColor: Color.fromARGB(255, 0, 59, 46),
+          foregroundColor: Color.fromARGB(255, 109, 151, 115),
           elevation: 30,
           shadowColor: Colors.black,
         ),
         drawer: Drawer(
-          backgroundColor: ThemeClass().lightPrimaryColor,
+          backgroundColor: Color.fromARGB(255, 109, 151, 115),
           child: Column(
             children: [
               const DrawerHeader(

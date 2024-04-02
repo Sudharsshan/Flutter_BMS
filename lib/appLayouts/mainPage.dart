@@ -1,4 +1,3 @@
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -6,8 +5,6 @@ import '../progressWidgets/currentWidget.dart';
 import '../progressWidgets/socWidget.dart';
 import '../progressWidgets/sohWidget.dart';
 import '../progressWidgets/voltageWidget.dart';
-import '../theme.dart';
-import 'package:batterymanagementsystem/networkStuff/model.dart';
 
 //ignore: must_be_immutable
 class mainPage extends StatefulWidget{
@@ -27,6 +24,14 @@ class mainPageState extends State<mainPage>{
   late double field1, field2, field3, field5;
   bool isDarkMode = false;
 
+  mainPageState(double field1, double field2, double field3, double field5){
+    this.field1 = field1;
+    this.field2 = field2;
+    this.field3 = field3;
+    this.field5 = field5;
+    print("CONSTRUCTUR CALL: $field1");
+  }
+
   @override
   void initState(){
     super.initState();
@@ -42,42 +47,29 @@ class mainPageState extends State<mainPage>{
     });
   }
 
-  mainPageState(double field1, double field2, double field3, double field5){
-    this.field1 = field1;
-    this.field2 = field2;
-    this.field3 = field3;
-    this.field5 = field5;
-  }
-
   @override
   Widget build(BuildContext context) {
     print('(MAINPAGE) Value of SOH: $field5');
-    return LiquidPullToRefresh(
-      springAnimationDurationInMilliseconds: 300,
-      onRefresh: networkHandler().fetchData,
-      color: ThemeClass().lightPrimaryColor,
-      child: Container(
-        decoration: BoxDecoration(
+    return Container(
+      decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(isDarkMode? "assets/images/DARK.png": "assets/images/LIGHT.png"),
-            repeat: ImageRepeat.repeat
+              image: AssetImage(isDarkMode? "assets/images/DARK.png": "assets/images/LIGHT.png"),
+              repeat: ImageRepeat.repeat
           )
-        ),
-        child:  ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            //Implemented the radial gauge
-            SOC(percent: field2,),
+      ),
+      child:  ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          //Implemented the radial gauge
+          SOC(percent: field2,),
 
-            SOH(percent: field5),
+          SOH(percent: field5),
 
-            VOLTAGE(percent: field3),
+          VOLTAGE(percent: field3),
 
-            CURRENT(percent: field1),
-          ],
-        ),
+          CURRENT(percent: field1),
+        ],
       ),
     );
   }
-
 }

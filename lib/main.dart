@@ -3,6 +3,10 @@
 import 'package:batterymanagementsystem/appLayouts/about_page.dart';
 import 'package:batterymanagementsystem/appLayouts/mainPage.dart';
 import 'package:batterymanagementsystem/appLayouts/settings.dart';
+import 'package:batterymanagementsystem/progressWidgets/currentWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/socWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/sohWidget.dart';
+import 'package:batterymanagementsystem/progressWidgets/voltageWidget.dart';
 import 'package:batterymanagementsystem/theme.dart';
 import 'package:batterymanagementsystem/networkStuff/model.dart';
 
@@ -12,9 +16,9 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
-void main(){
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MyApp()));
@@ -39,7 +43,6 @@ class _MyAppState extends State<MyApp>{
 
 
   late double field1 = 50, field2 = 0, field3 = 0, field5 = 0;
-  late Timer _timer;
   bool _isRefreshing = true, calldata = false;
   late Map<String, double> passOnData;
 
@@ -63,34 +66,24 @@ class _MyAppState extends State<MyApp>{
   void updateData() async{
     print("(MAIN) called by refreshData()? $calldata?");
     passOnData = await networkHandler().fetchData();
+    field1 = passOnData['Current']!;
+    field2 = passOnData['SOC']!;
+    field3 = passOnData['Voltage']!;
+    field5 = passOnData['SOH']!;
+    print("(MAIN) SOH: ${passOnData['SOH']}");
     setState(() {
-      field1 = passOnData['Current']!;
-      field2 = passOnData['SOC']!;
-      field3 = passOnData['Voltage']!;
-      field5 = passOnData['SOH']!;
-      print("(MAIN) SOH: ${passOnData['SOH']}");
       _isRefreshing = false;
       calldata = false;
     });
   }
 
   void dispose(){
-    _timer.cancel();
     super.dispose();
   }
 
   Future<void> refreshData() async {
     print("Initialized forceful update of UI widgets");
-    setState(() {
-      _isRefreshing = true;
-    });
-
-    calldata = true;
     updateData();
-
-    setState(() {
-      _isRefreshing = false;
-    });
   }
 
   //This method will fetch the Theme value from the shared_preferences
@@ -106,27 +99,27 @@ class _MyAppState extends State<MyApp>{
     print('(MAIN)(BUILD) SOH: $field5');
     return MaterialApp(
       debugShowCheckedModeBanner: false, //To avoid the DEBUG banner
-      theme: isDarkMode ? ThemeClass.darkTheme : ThemeClass.lightTheme,
+
       home: Builder(
         builder: (BuildContext context) =>
             Scaffold(
               appBar: AppBar(
                 centerTitle: true,
                 title: const Text("BMS"),
-                backgroundColor: ThemeClass().lightPrimaryColor,
-                foregroundColor: ThemeClass().secondaryColor,
+                backgroundColor: Color.fromARGB(255, 0, 59, 46),
+                foregroundColor: Color.fromARGB(255, 109, 151, 115),
                 elevation: 30,
                 shadowColor: Colors.black,
                 actions: [
                   IconButton(
-                      onPressed: _isRefreshing ? null : refreshData,
-                      icon: Icon(Icons.refresh)
+                      onPressed: updateData,
+                      icon: Icon(Icons.refresh),
                   ),
                 ],
               ),
 
               drawer: Drawer(
-                backgroundColor: ThemeClass().lightPrimaryColor,
+                backgroundColor: Color.fromARGB(255, 109, 151, 115),
                 child: Column(
                   children: [
                     const DrawerHeader(child: Column(

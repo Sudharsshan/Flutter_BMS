@@ -34,11 +34,11 @@ class networkHandler{
         }
       } else {
           print(("Error in fetching data"));
-          field1 = field2 = field3 = field5 = 00;
+          gatheredData['Current'] = gatheredData['SOC'] = gatheredData['Voltage'] = gatheredData['SOH'] = 0;
       }
     } catch (error) {
         print("Error is: ${error}");
-        field1 = field2 = field3 = field5 = 00;
+        gatheredData['Current'] = gatheredData['SOC'] = gatheredData['Voltage'] = gatheredData['SOH'] = 0;
     }
 
     return gatheredData;

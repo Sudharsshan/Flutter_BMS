@@ -41,14 +41,14 @@ class _about_page extends State<about_page>{
         appBar: AppBar(
           centerTitle:true,
           title: const Text("About"),
-          backgroundColor: ThemeClass().lightPrimaryColor,
-          foregroundColor: ThemeClass().secondaryColor,
+          backgroundColor: Color.fromARGB(255, 0, 59, 46),
+          foregroundColor: Color.fromARGB(255, 109, 151, 115),
           elevation: 30,
           shadowColor: Colors.black,
         ),
 
         drawer: Drawer(
-          backgroundColor:  ThemeClass().lightPrimaryColor,
+          backgroundColor:  Color.fromARGB(255, 109, 151, 115),
           child: Column(
             children: [
               const DrawerHeader(child: Column(
@@ -108,67 +108,59 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-            image: AssetImage(isDarkMode? "assets/images/DARK.png": "assets/images/LIGHT.png"),
-            repeat: ImageRepeat.repeat
-          )
-        ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Description of the App',
-                style: TextStyle(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Description of the App',
+              style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
                 color: Colors.redAccent, // Update text color
-                ),
               ),
-              const SizedBox(height: 16.0),
-              Text(
-                'A simple app to monitor battery parameters of your EV.',
-                style: TextStyle(
+            ),
+            const SizedBox(height: 16.0),
+            Text(
+              'A simple app to monitor battery parameters of your EV.',
+              style: TextStyle(
                 fontSize: 18.0, // Increased font size for better readability
                 color: Colors.green[800], // Update text color
-                ),
               ),
-              const SizedBox(height: 32.0),
-              Text(
-                'FAQs',
-                style: TextStyle(
+            ),
+            const SizedBox(height: 32.0),
+            Text(
+              'FAQs',
+              style: TextStyle(
                 fontSize: 24.0, // Increased font size for a futuristic feel
                 fontWeight: FontWeight.bold,
                 color: Colors.redAccent[900], // Update text color
-                ),
               ),
-              const SizedBox(height: 16.0),
-              FAQItem(
-                question: 'Q: What is a self-driving electric vehicle (EV)?',
-                answer: 'A self-driving electric vehicle'
-                    ', commonly known as an EV, is an automobile that runs on electricity as its primary source'
-                    ' of power and is equipped with autonomous driving capabilities. '
-                    'These vehicles can navigate and operate on roads without human intervention, '
-                    'relying on various sensors, cameras, and advanced software algorithms to detect and respond to their surroundings.',
-              ),
-              FAQItem(
-                question: 'Q: What are the features of the app?',
-                answer: 'Notifications and Alerts: Receive alerts about vehicle status, driving conditions, software updates, and maintenance reminders.'
-                    'Vehicle Monitoring: Monitor the battery charge level, estimated range, and other important vehicle parameters in real-time. ',
-              ),
-              FAQItem(
-                question: 'Q: Can I access battery health information remotely through the app?',
-                answer: 'Yes, the app enables remote access to battery health information. Users can view real-time battery health data,'
-                    ' receive notifications, and access historical information from anywhere,'
-                    ' providing convenience and peace of mind.',
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 16.0),
+            FAQItem(
+              question: 'Q: What is a self-driving electric vehicle (EV)?',
+              answer: 'A self-driving electric vehicle'
+                  ', commonly known as an EV, is an automobile that runs on electricity as its primary source'
+                  ' of power and is equipped with autonomous driving capabilities. '
+                  'These vehicles can navigate and operate on roads without human intervention, '
+                  'relying on various sensors, cameras, and advanced software algorithms to detect and respond to their surroundings.',
+            ),
+            FAQItem(
+              question: 'Q: What are the features of the app?',
+              answer: 'Notifications and Alerts: Receive alerts about vehicle status, driving conditions, software updates, and maintenance reminders.'
+                  'Vehicle Monitoring: Monitor the battery charge level, estimated range, and other important vehicle parameters in real-time. ',
+            ),
+            FAQItem(
+              question: 'Q: Can I access battery health information remotely through the app?',
+              answer: 'Yes, the app enables remote access to battery health information. Users can view real-time battery health data,'
+                  ' receive notifications, and access historical information from anywhere,'
+                  ' providing convenience and peace of mind.',
+            ),
+          ],
         ),
-      ),
+      )
     );
   }
 }
