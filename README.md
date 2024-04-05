@@ -34,9 +34,9 @@ Android Studio => get from version control => copy & paste the git link => run a
 
 Create an Issue under issues with a brief description of the issue (please provide a log as well).
 
-### Credits
+# Credits
 
-# Wallpaper icons
+### Wallpaper icons
 
 <a href="https://www.flaticon.com/free-icons/charging" title="charging icons">Charging icons created by Shashank Singh - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/wrench" title="wrench icons">Wrench icons created by deemakdaksina - Flaticon</a>
@@ -58,6 +58,6 @@ Create an Issue under issues with a brief description of the issue (please provi
 <a href="https://www.flaticon.com/free-icons/pollution" title="pollution icons">Pollution icons created by Freepik - Flaticon</a>
 <a href="https://www.flaticon.com/free-icons/no-emission" title="no emission icons">No emission icons created by Umeicon - Flaticon</a>
 
-# Artwork by:
+### Artwork by:
 
 Ryujin Shinko <a href="https://twitter.com/Shinko_Ryunjin" title="twitter.com/Shinko_Ryujin"> Ryujin Shinko twitter </a>
