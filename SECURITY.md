@@ -1,21 +1,13 @@
 # Security Policy
 
-## Supported Versions
+### Disclaimer
 
-Certain versions are opted out to prevent security issues and implement better visualities for good UI/UX functioning of the app.
-Currently supported versions are given below:
+  All the content of the app including the code, files (excluding the aforementioned icons) belong to Christ University. Using the app as a template for working on any project or developing the current app with any changes can be made with proper credits. Labelling the content of this project or any part of it (excluding the aforementioned icons) as your work is strictly prohibited, for any such enquiries, please contact.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| >5.1.1  | :white_check_mark: |
-| <5.x    | :x:                |
+### Icons used in app
 
-## Reporting a Vulnerability
+  All the icons used in app have been credited in the ReadMe, they are used for representation purpose only and belong to their respective owners.
 
-For any problems, errors found within the app please contact us at the email address provided:
+### Any complaints or takedown
 
-Report at: sudharsshansy@gmail.com
-
-## Any queries? Suggestions? Feedback?
-
-You can leave them at the email address(s) given above.
+  Please put forward a complaint towards the developers (contributors) for request for takedown or removal of the said content.
